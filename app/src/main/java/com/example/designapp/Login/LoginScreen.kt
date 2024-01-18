@@ -199,9 +199,17 @@ fun LoginScreen(navController: NavHostController,
             )
 
 
-            Text("Remember Password", color = colorResource(id = R.color.text_medium))
+            Text("Remember Me", color = colorResource(id = R.color.text_medium))
         }
-
+        Spacer(modifier = Modifier.height(16.dp))
+        // Forgot Password link
+        Text(
+            text = "Forgot Password?",
+            color = colorResource(id = R.color.text_medium),
+            modifier = Modifier.clickable {
+                navController.navigate("password_recovery")
+            }
+        )
         Spacer(modifier = Modifier.height(16.dp))
         Button(
             modifier = Modifier
@@ -223,6 +231,7 @@ fun LoginScreen(navController: NavHostController,
             ) {
             Text("Login", fontWeight = FontWeight.Bold)
         }
+
         Spacer(modifier = Modifier.height(16.dp))
         // Link to Signup Screen
         Row(modifier = Modifier
@@ -242,14 +251,7 @@ fun LoginScreen(navController: NavHostController,
         }
         Spacer(modifier = Modifier.height(16.dp))
 
-// Forgot Password link
-        Text(
-            text = "Forgot Password?",
-            color = colorResource(id = R.color.text_medium),
-            modifier = Modifier.clickable {
-                navController.navigate("password_recovery")
-            }
-        )
+
         LaunchedEffect(key1 = state.value, key2 = "loginEffect") {
             scope.launch {
                 when {

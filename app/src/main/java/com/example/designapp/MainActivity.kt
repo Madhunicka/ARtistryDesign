@@ -22,6 +22,7 @@ import com.example.designapp.SignUp.SignupScreen
 import com.example.designapp.categorey.FloorDesign
 import com.example.designapp.categorey.WallDesign
 import com.example.designapp.database.RealTimeDatabase
+import com.example.designapp.help.HelpScreen
 import com.example.designapp.home.HomeScreen
 import com.example.designapp.ui.theme.DesignAppTheme
 import com.google.firebase.database.DatabaseReference
@@ -92,6 +93,9 @@ fun MyApp() {
                 },
                 viewModel = PasswordRecoveryViewModel()
             )
+        }
+        composable("helpScreen") {
+            HelpScreen(navController = navController)
         }
     }
 }

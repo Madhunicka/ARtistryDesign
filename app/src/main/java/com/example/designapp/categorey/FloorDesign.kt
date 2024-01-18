@@ -32,10 +32,12 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
@@ -77,22 +79,24 @@ fun FloorDesign(navController: NavHostController, viewModel: LoginViewModel = hi
 
     var userEmail by remember { mutableStateOf("") }
     val scrollState = rememberScrollState()
-//    val state = viewModel.loginState.collectAsState(initial = null)
-
-//    val data by viewModel.data.observeAsState()
 
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
             .padding(16.dp)
+            .clip(RoundedCornerShape(16.dp))
+
+
     ) {
         // Header
         Row(
             modifier = Modifier
+
                 .fillMaxWidth()
-                .background(MaterialTheme.colorScheme.primary)
-                .padding(16.dp),
+                .background(color = colorResource(id = R.color.text_medium))
+                .padding(16.dp)
+                .height(100.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
@@ -173,6 +177,8 @@ fun FloorDesign(navController: NavHostController, viewModel: LoginViewModel = hi
                 .weight(1f)
                 .verticalScroll(scrollState)
         ) {
+
+
             when (selectedCategory) {
                 "Rangoli" -> RangoliScreen(navController)
                 "Kolam" -> KolamScreen()
@@ -250,8 +256,10 @@ fun RangoliScreen(navController: NavHostController) {
 
 
                     val modelName = childSnapshot.child("modelName").getValue(String::class.java)
-                    val modelCategory = childSnapshot.child("modelCategorey").getValue(String::class.java)
-                    val downloadUrl = childSnapshot.child("downloadUrl").getValue(String::class.java)
+                    val modelCategory =
+                        childSnapshot.child("modelCategorey").getValue(String::class.java)
+                    val downloadUrl =
+                        childSnapshot.child("downloadUrl").getValue(String::class.java)
 
                     val modelInfo = ModelInfo(modelName, modelCategory, downloadUrl)
 //                    modelInfoList.add(modelInfo)
@@ -275,34 +283,16 @@ fun RangoliScreen(navController: NavHostController) {
             }
         })
 
-
-
-
-//        storageRef.listAll()
-//            .addOnSuccessListener { result ->
-//                fileNames = result.items.map { it.name }
-////
-//            }
-//            .addOnFailureListener { exception ->
-//                // Handle errors
-//                Log.e("RangoliScreen", "Error fetching file names: $exception")
-//            }
     }
-    // Function to navigate to a new activity and pass data
-
-
-//    Text("Rangoli Screen Content")
     Column(
         modifier = Modifier
 
             .padding(16.dp)
             .size(600.dp)
             .verticalScroll(rememberScrollState())
+
     )
     {
-
-
-
 
         Text("Rangoli Screen Content")
 
@@ -310,73 +300,120 @@ fun RangoliScreen(navController: NavHostController) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(16.dp)
+                .padding(0.dp)
+
         ) {
-            modelInfoList.forEach { modelInfo ->
-                Box(
+            val modelsInFirstColumn = modelInfoList.take(modelInfoList.size / 2)
+            val modelsInSecondColumn = modelInfoList.drop(modelInfoList.size / 2)
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight()
+            ) {
+                Column(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(8.dp)
-                        .background(MaterialTheme.colorScheme.primary)
-                        .clip(RoundedCornerShape(8.dp))
-                        .clickable {
+                        .weight(1f)
+                        .fillMaxHeight()
+                        .fillMaxSize()
 
-//                            val context = LocalContext.current
-
-                            // Create an Intent to launch the new activity
-                            val intent = Intent(context, Camera::class.java)
-
-                            // Pass data to the new activity using Intent extras
-                            intent.putExtra("ModelName", modelInfo.ModelName)
-                            intent.putExtra("DownloadUrl", modelInfo.downloadUrl)
-
-                            // Launch the new activity
-                            context.startActivity(intent)
-                        }
                 ) {
-                    Column(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(8.dp)
-                    ) {
-                        // Display Image
-                        Image(
-                            painter = rememberImagePainter(modelInfo.downloadUrl),
-                            contentDescription = null,
+                    modelsInFirstColumn.forEach { modelInfo ->
+                        Box(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .height(150.dp)
+
+                                .padding(8.dp)
+                                .background(color = colorResource(id = R.color.text_medium))
                                 .clip(RoundedCornerShape(8.dp))
-                                .background(MaterialTheme.colorScheme.secondary)
+                                .clickable {
+                                    val intent = Intent(context, Camera::class.java)
+                                    intent.putExtra("ModelName", modelInfo.ModelName)
+                                    intent.putExtra("DownloadUrl", modelInfo.downloadUrl)
+                                    context.startActivity(intent)
+                                }
+                        ) {
+                            Column(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .padding(8.dp)
 
-                        )
+                            ) {
+                                Image(
+                                    painter = painterResource(id = R.drawable.logo1),
+                                    contentDescription = null,
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .height(100.dp)
+                                        .clip(RoundedCornerShape(8.dp))
+                                        .background(MaterialTheme.colorScheme.secondary)
+                                )
 
-                        // Display Model Info Text
-                        Text(
-                            text = "Model Name: ${modelInfo.ModelName}",
-                            color = Color.White,
+                                Text(
+                                    text = " ${modelInfo.ModelName}",
+                                    color = Color.White,
+                                    modifier = Modifier
+                                        .align(Alignment.Start)
+                                        .padding(4.dp)
+                                )
+                            }
+                        }
+                    }
+                }
+
+                Column(
+                    modifier = Modifier
+                        .weight(1f)
+                        .fillMaxHeight()
+                ) {
+                    modelsInSecondColumn.forEach { modelInfo ->
+                        Box(
                             modifier = Modifier
-                                .align(Alignment.Start)
-                                .padding(4.dp)
-                        )
 
-//                        Text(
-//                            text = "Download URL: ${modelInfo.downloadUrl}",
-//                            color = Color.White,
-//                            modifier = Modifier
-//                                .align(Alignment.Start)
-//                                .padding(4.dp)
-//                        )
+                                .padding(8.dp)
+                                .background(color = colorResource(id = R.color.text_medium))
+                                .clip(RoundedCornerShape(8.dp))
+                                .clickable {
+                                    val intent = Intent(context, Camera::class.java)
+                                    intent.putExtra("ModelName", modelInfo.ModelName)
+                                    intent.putExtra("DownloadUrl", modelInfo.downloadUrl)
+                                    context.startActivity(intent)
+                                }
+                        ) {
+                            Column(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .padding(8.dp)
+                            ) {
+                                Image(
+                                    painter = painterResource(id = R.drawable.logo1),
+                                    contentDescription = null,
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .height(100.dp)
+                                        .clip(RoundedCornerShape(8.dp))
+                                        .background(MaterialTheme.colorScheme.secondary)
+                                )
+
+                                Text(
+                                    text = " ${modelInfo.ModelName}",
+                                    color = Color.White,
+                                    modifier = Modifier
+                                        .align(Alignment.Start)
+                                        .padding(4.dp)
+                                )
+                            }
+                        }
                     }
                 }
             }
         }
 
-        }
-
-
-
     }
+
+
+
+}
 
 
 
@@ -421,7 +458,7 @@ fun PopupModal(onDismiss: () -> Unit) {
     }
 
     val contex = LocalContext.current
-    val categories = listOf("Category1", "Category2", "Category3")
+//    val categories = listOf("Category1", "Category2", "Category3")
     val database = Firebase.database
     val myRef = database.getReference("Models")
     var ModelName by remember {
@@ -578,7 +615,7 @@ fun PopupModal(onDismiss: () -> Unit) {
                 Button(
                     onClick = {
                         // Launch the file picker
-                        launcher.launch("*/*")
+                        launcher.launch("/")
                     },
                     modifier = Modifier.padding(10.dp)
                 ) {
