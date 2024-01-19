@@ -23,6 +23,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.Button
@@ -53,6 +54,7 @@ import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberImagePainter
 import com.example.designapp.R
 import com.example.designapp.ui.theme.DesignAppTheme
+import com.google.firebase.auth.FirebaseAuth
 
 @Composable
 fun HomeScreen(navController: NavHostController) {
@@ -69,28 +71,23 @@ fun HomeScreen(navController: NavHostController) {
 
 
         ) {
-            Image(
-                painter = painterResource(id = R.drawable.nobg),
-                contentDescription = null,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .alpha(0.2f) // Adjust the alpha to control the transparency of the background image
-            )
-            Spacer(modifier = Modifier.height(32.dp))
+//            Image(
+//                painter = painterResource(id = R.drawable.nobg),
+//                contentDescription = null,
+//                modifier = Modifier
+//                    .fillMaxSize()
+//                    .offset (y =30.dp)
+//                    .alpha(0.5f) // Adjust the alpha to control the transparency of the background image
+//            )
+//            Spacer(modifier = Modifier.height(32.dp))
 
-            Image(
-                painter = painterResource(id = R.drawable.nobg),
-                contentDescription = null,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .alpha(0.2f) // Adjust the alpha to control the transparency of the background image
-            )
+
             Icon(
                 imageVector = Icons.Default.Info,
                 contentDescription = "info",
                 modifier = Modifier
                     .size(30.dp, 30.dp)
-                    .offset(290.dp)
+                    .offset(320.dp)
                     .clickable(onClick = {navController.navigate("helpScreen")})
             )
             Spacer(modifier = Modifier.height(16.dp)
@@ -112,9 +109,12 @@ fun HomeScreen(navController: NavHostController) {
                     )
                 Image(modifier= Modifier
                     .fillMaxWidth()
+//                    .alpha(0.2f)
+
                     .height(300.dp),
                     painter = painterResource(id = R.drawable.ar_logo),
-                    contentDescription = "logo",
+                    contentDescription = "logo"
+                    ,
 
                     )
             }
@@ -129,22 +129,34 @@ fun HomeScreen(navController: NavHostController) {
         GradientButton("Floor Design",navController)
         Spacer(modifier = Modifier.height(32.dp))
         GradientButton("Wall Design",navController)
+        Spacer(modifier = Modifier.height(232.dp))
+
+        Icon(
+            imageVector = Icons.Default.ExitToApp,
+            contentDescription = "Logout",
+            modifier = Modifier
+                .size(50.dp)
+                .padding(8.dp)
+                .align(alignment = Alignment.End)
+                .clickable {
+                    FirebaseAuth.getInstance().signOut()
+                    navController.navigate("login") {
+                        popUpTo("login") {
+                            inclusive = true
+                        }
+                    }
+                    navController.enableOnBackPressed(false)
+                }
+        )
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(8.dp)
         ) {
-            Image(
-                painter = painterResource(id = R.drawable.nobg),
-                contentDescription = null,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(1900.dp)
-                    .clip(RoundedCornerShape(8.dp))
-
-
-            )
+//
         }
+
+
 
     }
 }

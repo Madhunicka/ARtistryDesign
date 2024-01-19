@@ -102,7 +102,7 @@ fun PasswordRecoveryScreen(
                 .height(56.dp)
                 .padding(4.dp),
             colors = ButtonDefaults.buttonColors(
-                //backgroundColor = MaterialTheme.colorScheme.primary,
+                colorResource(id = R.color.text_medium),
                 contentColor = Color.White
             )
         ) {
@@ -129,78 +129,4 @@ fun PasswordRecoveryScreen(
         }
     }
 }
-
-//@OptIn(ExperimentalMaterial3Api::class)
-//@Composable
-//fun PasswordRecoveryScreen(
-//    navController : NavController,
-//    onBack: () -> Unit,
-//    viewModel: PasswordRecoveryViewModel
-//) {
-//    var email by remember { mutableStateOf("") }
-//    var isLoading by remember { mutableStateOf(false) }
-//    var result by remember { mutableStateOf<PasswordRecoveryResult?>(null) }
-//
-//    val context = LocalContext.current
-//    val scope = rememberCoroutineScope()
-//
-//    Column(
-//        modifier = Modifier
-//            .fillMaxSize()
-//            .background(MaterialTheme.colorScheme.background)
-//            .padding(16.dp)
-//    ) {
-//        // UI components for back button, title, and email field go here
-//
-//        TextField(
-//            value = email,
-//            onValueChange = { email = it },
-//            label = { Text("Email") },
-//            // Other TextField configurations go here
-//        )
-//
-//        Spacer(modifier = Modifier.height(16.dp))
-//
-//        Button(
-//            onClick = {
-//                if (!isLoading) {
-//                    scope.launch {
-//                        isLoading = true
-//                        result = viewModel.performPasswordRecovery(email)
-//                        isLoading = false
-//                        // Check if the password recovery was successful
-//                        if (result is PasswordRecoveryResult.Success) {
-//                            // Navigate to the login screen after successful password recovery
-//                            navController.navigate("login")
-//                        }
-//                    }
-//                }
-//            },
-//            modifier = Modifier
-//                .fillMaxWidth()
-//                .height(56.dp)
-//        ) {
-//            if (isLoading) {
-//                CircularProgressIndicator(
-//                    color = MaterialTheme.colorScheme.primary,
-//                    modifier = Modifier.size(24.dp)
-//                )
-//            } else {
-//                Text("Reset Password")
-//            }
-//        }
-//
-//        // Display success or error message
-//        result?.let { passwordRecoveryResult ->
-//            when (passwordRecoveryResult) {
-//                is PasswordRecoveryResult.Success -> {
-//                    Toast.makeText(context, "Password reset email sent successfully", Toast.LENGTH_SHORT).show()
-//                }
-//                is PasswordRecoveryResult.Error -> {
-//                    Toast.makeText(context, passwordRecoveryResult.message, Toast.LENGTH_SHORT).show()
-//                }
-//            }
-//        }
-//    }
-//}
 

@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -34,6 +35,7 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
@@ -89,6 +91,7 @@ fun FloorDesign(navController: NavHostController, viewModel: LoginViewModel = hi
 
 
     ) {
+
         // Header
         Row(
             modifier = Modifier
@@ -202,7 +205,7 @@ fun CategoryTextButton(
             .height(56.dp)
             .fillMaxWidth(),
         colors = ButtonDefaults.textButtonColors(
-            contentColor = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onBackground
+            contentColor = if (isSelected) colorResource(id = R.color.text_medium) else MaterialTheme.colorScheme.onBackground
         )
 
 
@@ -287,7 +290,7 @@ fun RangoliScreen(navController: NavHostController) {
     Column(
         modifier = Modifier
 
-            .padding(16.dp)
+
             .size(600.dp)
             .verticalScroll(rememberScrollState())
 
@@ -299,7 +302,8 @@ fun RangoliScreen(navController: NavHostController) {
 
         Column(
             modifier = Modifier
-                .fillMaxSize()
+//                .fillMaxSize()
+                .fillMaxWidth()
                 .padding(0.dp)
 
         ) {
@@ -319,47 +323,58 @@ fun RangoliScreen(navController: NavHostController) {
 
                 ) {
                     modelsInFirstColumn.forEach { modelInfo ->
-                        Box(
-                            modifier = Modifier
-                                .fillMaxWidth()
 
-                                .padding(8.dp)
-                                .background(color = colorResource(id = R.color.text_medium))
-                                .clip(RoundedCornerShape(8.dp))
-                                .clickable {
-                                    val intent = Intent(context, Camera::class.java)
-                                    intent.putExtra("ModelName", modelInfo.ModelName)
-                                    intent.putExtra("DownloadUrl", modelInfo.downloadUrl)
-                                    context.startActivity(intent)
-                                }
-                        ) {
-                            Column(
+                        if(modelInfo.ModelCategorey=="Rangoli") {
+                            Box(
                                 modifier = Modifier
-                                    .fillMaxSize()
+                                    .fillMaxWidth()
+
                                     .padding(8.dp)
-
+                                    .background(
+                                        color = Color.Gray,
+                                        shape = RoundedCornerShape(10.dp)
+                                    )
+                                    .clickable {
+                                        val intent = Intent(context, Camera::class.java)
+                                        intent.putExtra("ModelName", modelInfo.ModelName)
+                                        intent.putExtra("DownloadUrl", modelInfo.downloadUrl)
+                                        context.startActivity(intent)
+                                    }
                             ) {
-                                Image(
-                                    painter = painterResource(id = R.drawable.logo1),
-                                    contentDescription = null,
+                                Column(
                                     modifier = Modifier
-                                        .fillMaxWidth()
-                                        .height(100.dp)
-                                        .clip(RoundedCornerShape(8.dp))
-                                        .background(MaterialTheme.colorScheme.secondary)
-                                )
+                                        .fillMaxSize()
+                                        .padding(8.dp)
 
-                                Text(
-                                    text = " ${modelInfo.ModelName}",
-                                    color = Color.White,
-                                    modifier = Modifier
-                                        .align(Alignment.Start)
-                                        .padding(4.dp)
-                                )
+                                ) {
+                                    Image(
+                                        painter = painterResource(id = R.drawable.nobggry),
+                                        contentDescription = null,
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .height(100.dp)
+
+                                            .clip(RoundedCornerShape(8.dp))
+                                            .background(
+                                                color = Color.Gray,
+                                            )
+                                    )
+
+                                    Text(
+                                        text = " ${modelInfo.ModelName}",
+                                        color = Color.White,
+                                        fontSize = 14.sp,
+                                        modifier = Modifier
+                                            .align(Alignment.CenterHorizontally)
+                                            .padding(4.dp)
+                                    )
+                                }
                             }
                         }
                     }
                 }
+
+                Spacer(modifier = Modifier.width(16.dp))
 
                 Column(
                     modifier = Modifier
@@ -367,41 +382,48 @@ fun RangoliScreen(navController: NavHostController) {
                         .fillMaxHeight()
                 ) {
                     modelsInSecondColumn.forEach { modelInfo ->
-                        Box(
-                            modifier = Modifier
-
-                                .padding(8.dp)
-                                .background(color = colorResource(id = R.color.text_medium))
-                                .clip(RoundedCornerShape(8.dp))
-                                .clickable {
-                                    val intent = Intent(context, Camera::class.java)
-                                    intent.putExtra("ModelName", modelInfo.ModelName)
-                                    intent.putExtra("DownloadUrl", modelInfo.downloadUrl)
-                                    context.startActivity(intent)
-                                }
-                        ) {
-                            Column(
+                        if(modelInfo.ModelCategorey=="Rangoli") {
+                            Box(
                                 modifier = Modifier
-                                    .fillMaxSize()
-                                    .padding(8.dp)
-                            ) {
-                                Image(
-                                    painter = painterResource(id = R.drawable.logo1),
-                                    contentDescription = null,
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .height(100.dp)
-                                        .clip(RoundedCornerShape(8.dp))
-                                        .background(MaterialTheme.colorScheme.secondary)
-                                )
 
-                                Text(
-                                    text = " ${modelInfo.ModelName}",
-                                    color = Color.White,
+                                    .padding(8.dp)
+                                    .background(
+                                        color = Color.Gray,
+                                        shape = RoundedCornerShape(10.dp)
+                                    )
+
+                                    .clickable {
+                                        val intent = Intent(context, Camera::class.java)
+                                        intent.putExtra("ModelName", modelInfo.ModelName)
+                                        intent.putExtra("DownloadUrl", modelInfo.downloadUrl)
+                                        context.startActivity(intent)
+                                    }
+                            ) {
+                                Column(
                                     modifier = Modifier
-                                        .align(Alignment.Start)
-                                        .padding(4.dp)
-                                )
+                                        .fillMaxSize()
+                                        .padding(8.dp)
+                                ) {
+                                    Image(
+                                        painter = painterResource(id = R.drawable.nobggry),
+                                        contentDescription = null,
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .height(100.dp)
+
+                                            .clip(RoundedCornerShape(8.dp))
+                                            .background(color = Color.Gray)
+                                    )
+
+                                    Text(
+                                        text = " ${modelInfo.ModelName}",
+                                        color = Color.White,
+                                        fontSize = 14.sp,
+                                        modifier = Modifier
+                                            .align(Alignment.CenterHorizontally)
+                                            .padding(4.dp)
+                                    )
+                                }
                             }
                         }
                     }
@@ -431,12 +453,450 @@ fun FileItem(fileName: String) {
 
 @Composable
 fun KolamScreen() {
-    Text("Kolam Screen Content")
+    val contex = LocalContext.current
+    val storage = Firebase.storage
+    val storageRef = storage.reference.child("uploads") // Replace with your storage path
+    val context = LocalContext.current
+
+    // State to hold the list of file names
+    var fileNames by remember { mutableStateOf<List<String>>(emptyList()) }
+    var fileImages by remember { mutableStateOf<List<String>>(emptyList()) }
+
+    var models by remember {
+        mutableStateOf<List<ModelInfo>>(emptyList())
+    }
+
+    val database = Firebase.database
+    val myRef = database.getReference("Models")
+    // Effect to fetch file names when the composable is first drawn
+    var modelInfoList by remember { mutableStateOf<List<ModelInfo>>(emptyList()) }
+    fun addModelInfoItem(newItem: ModelInfo) {
+        modelInfoList = modelInfoList + newItem
+    }
+    LaunchedEffect(Unit) {
+        myRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                modelInfoList = emptyList()
+                val dataList = mutableListOf<String>()
+                val dataList2 = mutableListOf<String>()
+
+                for (childSnapshot in snapshot.children) {
+                    // Extract the 'name' field from each child
+
+                    val name = childSnapshot.child("modelName").getValue(String::class.java)
+                    name?.let { dataList.add(it) }
+                    val thumb = childSnapshot.child("downloadUrl").getValue(String::class.java)
+                    thumb?.let { dataList2.add(it) }
+
+                    Log.d("asd", childSnapshot.value.toString());
+
+
+                    val modelName = childSnapshot.child("modelName").getValue(String::class.java)
+                    val modelCategory =
+                        childSnapshot.child("modelCategorey").getValue(String::class.java)
+                    val downloadUrl =
+                        childSnapshot.child("downloadUrl").getValue(String::class.java)
+
+                    val modelInfo = ModelInfo(modelName, modelCategory, downloadUrl)
+//                    modelInfoList.add(modelInfo)
+                    addModelInfoItem(modelInfo)
+
+
+                }
+
+                // Update the state with the list of names
+                fileNames = dataList
+                fileImages = dataList2
+
+                // Log the data changes
+                Log.d("RangoliScreen", "Data updated: $fileNames")
+
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                // Handle errors
+                Log.e("RangoliScreen", "Error fetching data: ${error.message}")
+            }
+        })
+
+    }
+    Column(
+        modifier = Modifier
+
+
+            .size(600.dp)
+            .verticalScroll(rememberScrollState())
+
+    )
+    {
+
+        Text("Kolam Screen Content")
+
+
+        Column(
+            modifier = Modifier
+//                .fillMaxSize()
+                .fillMaxWidth()
+                .padding(0.dp)
+
+        ) {
+            val modelsInFirstColumn = modelInfoList.take(modelInfoList.size / 2)
+            val modelsInSecondColumn = modelInfoList.drop(modelInfoList.size / 2)
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight()
+            ) {
+                Column(
+                    modifier = Modifier
+                        .weight(1f)
+                        .fillMaxHeight()
+                        .fillMaxSize()
+
+                ) {
+
+                    modelsInFirstColumn.forEach { modelInfo ->
+                        if(modelInfo.ModelCategorey=="Kolam") {
+
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+
+                                    .padding(8.dp)
+                                    .background(
+                                        color = Color.Gray,
+                                        shape = RoundedCornerShape(10.dp)
+                                    )
+                                    .clickable {
+                                        val intent = Intent(context, Camera::class.java)
+                                        intent.putExtra("ModelName", modelInfo.ModelName)
+                                        intent.putExtra("DownloadUrl", modelInfo.downloadUrl)
+                                        context.startActivity(intent)
+                                    }
+                            ) {
+                                Column(
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                        .padding(8.dp)
+
+                                ) {
+                                    Image(
+                                        painter = painterResource(id = R.drawable.nobggry),
+                                        contentDescription = null,
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .height(100.dp)
+
+                                            .clip(RoundedCornerShape(8.dp))
+                                            .background(
+                                                color = Color.Gray,
+                                            )
+                                    )
+
+                                    Text(
+                                        text = " ${modelInfo.ModelName}",
+                                        color = Color.White,
+                                        fontSize = 14.sp,
+                                        modifier = Modifier
+                                            .align(Alignment.CenterHorizontally)
+                                            .padding(4.dp)
+                                    )
+                                }
+                            }
+                        }
+                    }
+                }
+
+                Spacer(modifier = Modifier.width(16.dp))
+
+                Column(
+                    modifier = Modifier
+                        .weight(1f)
+                        .fillMaxHeight()
+                ) {
+                    modelsInSecondColumn.forEach { modelInfo ->
+                        if(modelInfo.ModelCategorey=="Kolam") {
+                            Box(
+                                modifier = Modifier
+
+                                    .padding(8.dp)
+                                    .background(
+                                        color = Color.Gray,
+                                        shape = RoundedCornerShape(10.dp)
+                                    )
+
+                                    .clickable {
+                                        val intent = Intent(context, Camera::class.java)
+                                        intent.putExtra("ModelName", modelInfo.ModelName)
+                                        intent.putExtra("DownloadUrl", modelInfo.downloadUrl)
+                                        context.startActivity(intent)
+                                    }
+                            ) {
+                                Column(
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                        .padding(8.dp)
+                                ) {
+                                    Image(
+                                        painter = painterResource(id = R.drawable.nobggry),
+                                        contentDescription = null,
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .height(100.dp)
+
+                                            .clip(RoundedCornerShape(8.dp))
+                                            .background(color = Color.Gray)
+                                    )
+
+                                    Text(
+                                        text = " ${modelInfo.ModelName}",
+                                        color = Color.White,
+                                        fontSize = 14.sp,
+                                        modifier = Modifier
+                                            .align(Alignment.CenterHorizontally)
+                                            .padding(4.dp)
+                                    )
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+    }
+
+
+
+
+
+
+
 }
 
 @Composable
 fun CarpetScreen() {
-    Text("Carpet Screen Content")
+    val contex = LocalContext.current
+    val storage = Firebase.storage
+    val storageRef = storage.reference.child("uploads") // Replace with your storage path
+    val context = LocalContext.current
+
+    // State to hold the list of file names
+    var fileNames by remember { mutableStateOf<List<String>>(emptyList()) }
+    var fileImages by remember { mutableStateOf<List<String>>(emptyList()) }
+
+    var models by remember {
+        mutableStateOf<List<ModelInfo>>(emptyList())
+    }
+
+    val database = Firebase.database
+    val myRef = database.getReference("Models")
+    // Effect to fetch file names when the composable is first drawn
+    var modelInfoList by remember { mutableStateOf<List<ModelInfo>>(emptyList()) }
+    fun addModelInfoItem(newItem: ModelInfo) {
+        modelInfoList = modelInfoList + newItem
+    }
+    LaunchedEffect(Unit) {
+        myRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                modelInfoList = emptyList()
+                val dataList = mutableListOf<String>()
+                val dataList2 = mutableListOf<String>()
+
+                for (childSnapshot in snapshot.children) {
+                    // Extract the 'name' field from each child
+
+                    val name = childSnapshot.child("modelName").getValue(String::class.java)
+                    name?.let { dataList.add(it) }
+                    val thumb = childSnapshot.child("downloadUrl").getValue(String::class.java)
+                    thumb?.let { dataList2.add(it) }
+
+                    Log.d("asd", childSnapshot.value.toString());
+
+
+                    val modelName = childSnapshot.child("modelName").getValue(String::class.java)
+                    val modelCategory =
+                        childSnapshot.child("modelCategorey").getValue(String::class.java)
+                    val downloadUrl =
+                        childSnapshot.child("downloadUrl").getValue(String::class.java)
+
+                    val modelInfo = ModelInfo(modelName, modelCategory, downloadUrl)
+//                    modelInfoList.add(modelInfo)
+                    addModelInfoItem(modelInfo)
+
+
+                }
+
+                // Update the state with the list of names
+                fileNames = dataList
+                fileImages = dataList2
+
+                // Log the data changes
+                Log.d("RangoliScreen", "Data updated: $fileNames")
+
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                // Handle errors
+                Log.e("RangoliScreen", "Error fetching data: ${error.message}")
+            }
+        })
+
+    }
+    Column(
+        modifier = Modifier
+
+
+            .size(600.dp)
+            .verticalScroll(rememberScrollState())
+
+    )
+    {
+
+        Text("Carpet Screen Content")
+
+
+        Column(
+            modifier = Modifier
+//                .fillMaxSize()
+                .fillMaxWidth()
+                .padding(0.dp)
+
+        ) {
+            val modelsInFirstColumn = modelInfoList.take(modelInfoList.size / 2)
+            val modelsInSecondColumn = modelInfoList.drop(modelInfoList.size / 2)
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight()
+            ) {
+                Column(
+                    modifier = Modifier
+                        .weight(1f)
+                        .fillMaxHeight()
+                        .fillMaxSize()
+
+                ) {
+
+                    modelsInFirstColumn.forEach { modelInfo ->
+                        if(modelInfo.ModelCategorey=="Carpet") {
+
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+
+                                    .padding(8.dp)
+                                    .background(
+                                        color = Color.Gray,
+                                        shape = RoundedCornerShape(10.dp)
+                                    )
+                                    .clickable {
+                                        val intent = Intent(context, Camera::class.java)
+                                        intent.putExtra("ModelName", modelInfo.ModelName)
+                                        intent.putExtra("DownloadUrl", modelInfo.downloadUrl)
+                                        context.startActivity(intent)
+                                    }
+                            ) {
+                                Column(
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                        .padding(8.dp)
+
+                                ) {
+                                    Image(
+                                        painter = painterResource(id = R.drawable.nobggry),
+                                        contentDescription = null,
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .height(100.dp)
+
+                                            .clip(RoundedCornerShape(8.dp))
+                                            .background(
+                                                color = Color.Gray,
+                                            )
+                                    )
+
+                                    Text(
+                                        text = " ${modelInfo.ModelName}",
+                                        color = Color.White,
+                                        fontSize = 14.sp,
+                                        modifier = Modifier
+                                            .align(Alignment.CenterHorizontally)
+                                            .padding(4.dp)
+
+                                    )
+                                }
+                            }
+                        }
+                    }
+                }
+
+                Spacer(modifier = Modifier.width(16.dp))
+
+                Column(
+                    modifier = Modifier
+                        .weight(1f)
+                        .fillMaxHeight()
+                ) {
+                    modelsInSecondColumn.forEach { modelInfo ->
+                        if(modelInfo.ModelCategorey=="Carpet") {
+                            Box(
+                                modifier = Modifier
+
+                                    .padding(8.dp)
+                                    .background(
+                                        color = Color.Gray,
+                                        shape = RoundedCornerShape(10.dp)
+                                    )
+
+                                    .clickable {
+                                        val intent = Intent(context, Camera::class.java)
+                                        intent.putExtra("ModelName", modelInfo.ModelName)
+                                        intent.putExtra("DownloadUrl", modelInfo.downloadUrl)
+                                        context.startActivity(intent)
+                                    }
+                            ) {
+                                Column(
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                        .padding(8.dp)
+                                ) {
+                                    Image(
+                                        painter = painterResource(id = R.drawable.nobggry),
+                                        contentDescription = null,
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .height(100.dp)
+
+                                            .clip(RoundedCornerShape(8.dp))
+                                            .background(color = Color.Gray)
+                                    )
+
+                                    Text(
+                                        text = " ${modelInfo.ModelName}",
+                                        color = Color.White,
+                                        fontSize = 14.sp,
+                                        modifier = Modifier
+                                            .align(Alignment.CenterHorizontally)
+                                            .padding(4.dp)
+                                    )
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+    }
+
+
+
+
+
+
 }
 
 
@@ -472,7 +932,7 @@ fun PopupModal(onDismiss: () -> Unit) {
     }
     var categoryOptions by remember {
         mutableStateOf(
-            listOf("Floor", "Wall")
+            listOf("Rangoli", "Kolam", "Carpet")
         )
     }
     var selectedCategoryIndex by remember { mutableStateOf(0) }
@@ -527,10 +987,14 @@ fun PopupModal(onDismiss: () -> Unit) {
                     onValueChange = { ModelName = it },
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(10.dp),
+                        .padding(10.dp)
+
+
+                       ,
                     placeholder = {
                         Text(text = "Enter Model Name", fontSize = 14.sp)
-                    }
+                    },
+                    shape = RoundedCornerShape(8.dp)
 
                 )
 
@@ -552,30 +1016,37 @@ fun PopupModal(onDismiss: () -> Unit) {
 //                )
                 Row(
                     modifier = Modifier
-                        .fillMaxWidth()
+
                         .background(MaterialTheme.colorScheme.surface)
-                        .clickable {
-                            // Expand the custom dropdown
-                            expanded = !expanded
-                        }
+
+                        .border(1.dp, color=Color.Gray, shape = RoundedCornerShape(8.dp))
+                        .clickable { expanded = !expanded }
+                        .padding(10.dp)
+                        .width(250.dp)
+
+
                 ) {
                     BasicTextField(
                         value = categoryOptions[selectedCategoryIndex],
                         onValueChange = {},
+                        readOnly = true,
+
                         keyboardOptions = KeyboardOptions.Default.copy(
                             imeAction = ImeAction.Done
                         ),
                         modifier = Modifier
-                            .weight(1f)
-                            .padding(10.dp)
+                            .weight(2f)
+
+
+
                             .clickable { expanded = !expanded }
-                            .border(1.dp, MaterialTheme.colorScheme.primary)
-                            .fillMaxWidth()
+
                     )
 
                     Icon(
                         imageVector = Icons.Default.ArrowDropDown,
                         contentDescription = null,
+
                         modifier = Modifier
                             .size(24.dp)
                             .clickable { expanded = !expanded }
@@ -615,10 +1086,17 @@ fun PopupModal(onDismiss: () -> Unit) {
                 Button(
                     onClick = {
                         // Launch the file picker
-                        launcher.launch("/")
+                        launcher.launch("*/*")
                     },
-                    modifier = Modifier.padding(10.dp)
-                ) {
+                    modifier = Modifier.padding(10.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color.Gray,
+                        contentColor = Color.White
+
+                )
+                )
+
+                {
                     Text(text = "Select File")
                 }
 

@@ -25,6 +25,7 @@ import com.example.designapp.database.RealTimeDatabase
 import com.example.designapp.help.HelpScreen
 import com.example.designapp.home.HomeScreen
 import com.example.designapp.ui.theme.DesignAppTheme
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import dagger.hilt.android.AndroidEntryPoint
@@ -58,16 +59,15 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun MyApp() {
     val navController = rememberNavController()
-    NavHost(navController, startDestination = "onboarding") {
+    val auth = FirebaseAuth.getInstance()
+    val isLoggedIn = auth.currentUser!=null
+    NavHost(navController, startDestination = if(isLoggedIn) "home" else "onboarding") {
         composable("onboarding") {
             OnBoardingScreen(navController = navController)
         }
         composable("login") {
             LoginScreen(navController = navController)
         }
-//        composable("camera") {
-//            LoginScreen(navController = navController)
-//        }
 
 
         composable("signup") {
@@ -80,7 +80,7 @@ fun MyApp() {
             FloorDesign(navController= navController)
         }
         composable("wall") {
-            WallDesign()
+            WallDesign(navController= navController)
         }
         composable("insertModel") {
             RealTimeDatabase()
@@ -99,7 +99,6 @@ fun MyApp() {
         }
     }
 }
-
 @Preview(showBackground = true)
 @Composable
 fun MyAppPreview() {

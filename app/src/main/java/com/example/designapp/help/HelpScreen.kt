@@ -3,6 +3,7 @@ package com.example.designapp.help
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
@@ -51,7 +52,8 @@ fun HelpScreen(navController: NavHostController) {
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
-            .padding(16.dp)
+            .padding(36.dp)
+
             .verticalScroll(rememberScrollState())
     ) {
         Text(
@@ -62,16 +64,17 @@ fun HelpScreen(navController: NavHostController) {
             modifier = Modifier.padding(bottom = 24.dp)
         )
 
-        InstructionCard("1. Open the AR app and grant necessary permissions.", Color(0xFFDAA520), Color(0xFFFFD700))
-        InstructionCard("2. Point your device's camera towards a flat surface.", Color(0xFF4CAF50), Color(0xFF64DD17))
-        InstructionCard("3. Tap on the screen to place AR objects.", Color(0xFF2196F3), Color(0xFF64B5F6))
+        InstructionCard("1. Open the AR app and grant necessary permissions.")
+        InstructionCard("2. Point your device's camera towards a flat surface.", )
+        InstructionCard("3. Tap on the screen to place AR objects.")
 
         // Additional instructions...
 
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 32.dp),
+
+                .padding(top = 52.dp),
             horizontalArrangement = Arrangement.Start
         ) {
             IconButton(
@@ -98,20 +101,18 @@ fun HelpScreen(navController: NavHostController) {
 }
 
 @Composable
-fun InstructionCard(instruction: String, startColor: Color, endColor: Color) {
+fun InstructionCard(instruction: String) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 8.dp)
-            .background(
-                brush = Brush.horizontalGradient(listOf(startColor, endColor)),
-                shape = RoundedCornerShape(8.dp)
-            ),
+            ,
         //elevation = 4.dp
     ) {
         Column(
             modifier = Modifier
                 .padding(16.dp)
+
         ) {
             Text(
                 text = instruction,
