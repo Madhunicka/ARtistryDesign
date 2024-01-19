@@ -45,6 +45,7 @@ import io.github.sceneview.ar.ARScene
 import io.github.sceneview.ar.node.ArModelNode
 import io.github.sceneview.ar.node.ArNode
 import io.github.sceneview.ar.node.PlacementMode
+import io.github.sceneview.math.Position
 import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.OkHttpClient
@@ -58,6 +59,7 @@ class Camera : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val downloadUrl = intent.getStringExtra("DownloadUrl") ?: "defaultUrl"
+        val testUrl = "models/test.glb"
         setContent {
             DesignAppTheme {
                 // A surface container using the 'background' color from the theme
@@ -116,7 +118,9 @@ fun ARScreen(model:String) {
                 modelNode.value = ArModelNode(arSceneView.engine, PlacementMode.INSTANT).apply {
                     loadModelGlbAsync(
                         glbFileLocation = model,
-                        scaleToUnits = 0.9f
+                        scaleToUnits = 0.9f,
+                        centerOrigin = Position(0f, 0f, 0f),
+
                     ){
 
                     }
