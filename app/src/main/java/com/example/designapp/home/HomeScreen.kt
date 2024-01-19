@@ -1,5 +1,8 @@
 package com.example.designapp.home
 
+import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
+import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -32,6 +35,11 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -41,6 +49,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -58,6 +67,36 @@ import com.google.firebase.auth.FirebaseAuth
 
 @Composable
 fun HomeScreen(navController: NavHostController) {
+    val dispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
+    val context = LocalContext.current
+    var exitPressedOnce by remember { mutableStateOf(false) }
+
+    DisposableEffect(context) {
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (exitPressedOnce) {
+                    // If the user pressed the back button twice, exit the app
+                    dispatcher?.onBackPressed()
+                } else {
+                    // If it's the first press, show a message or perform any desired action
+                    // Here, I'm showing a Toast message
+                    Toast.makeText(context, "Press back again to exit", Toast.LENGTH_SHORT).show()
+
+                    // Set the flag to true, indicating the first press
+                    exitPressedOnce = true
+
+                    // Reset the flag after a delay (e.g., 2 seconds)
+                    android.os.Handler().postDelayed({ exitPressedOnce = false }, 2000)
+                }
+            }
+        }
+
+        dispatcher?.addCallback(callback)
+
+        onDispose {
+            callback.remove()
+        }
+    }
     Column(
         modifier = Modifier
             .background(MaterialTheme.colorScheme.background)
@@ -87,7 +126,7 @@ fun HomeScreen(navController: NavHostController) {
                 contentDescription = "info",
                 modifier = Modifier
                     .size(30.dp, 30.dp)
-                    .offset(320.dp)
+                    .offset(290.dp)
                     .clickable(onClick = {navController.navigate("helpScreen")})
             )
             Spacer(modifier = Modifier.height(16.dp)
@@ -129,14 +168,14 @@ fun HomeScreen(navController: NavHostController) {
         GradientButton("Floor Design",navController)
         Spacer(modifier = Modifier.height(32.dp))
         GradientButton("Wall Design",navController)
-        Spacer(modifier = Modifier.height(232.dp))
+        Spacer(modifier = Modifier.height(212.dp))
 
         Icon(
             imageVector = Icons.Default.ExitToApp,
             contentDescription = "Logout",
             modifier = Modifier
                 .size(50.dp)
-                .padding(8.dp)
+                .padding(0.dp)
                 .align(alignment = Alignment.End)
                 .clickable {
                     FirebaseAuth.getInstance().signOut()
