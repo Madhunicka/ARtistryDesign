@@ -291,20 +291,19 @@ fun RangoliScreen(navController: NavHostController) {
         modifier = Modifier
 
 
-            .size(600.dp)
+            .size(1600.dp)
             .verticalScroll(rememberScrollState())
 
     )
     {
 
-        Text("Rangoli Screen Content")
-
+//        Text("Rangoli Screen Content")
 
         Column(
             modifier = Modifier
 //                .fillMaxSize()
                 .fillMaxWidth()
-                .padding(0.dp)
+
 
         ) {
             val modelsInFirstColumn = modelInfoList.take(modelInfoList.size / 2)
@@ -524,13 +523,13 @@ fun KolamScreen() {
         modifier = Modifier
 
 
-            .size(600.dp)
+            .size(1600.dp)
             .verticalScroll(rememberScrollState())
 
     )
     {
 
-        Text("Kolam Screen Content")
+//        Text("Kolam Screen Content")
 
 
         Column(
@@ -748,13 +747,13 @@ fun CarpetScreen() {
         modifier = Modifier
 
 
-            .size(600.dp)
+            .size(1600.dp)
             .verticalScroll(rememberScrollState())
 
     )
     {
 
-        Text("Carpet Screen Content")
+//        Text("Carpet Screen Content")
 
 
         Column(

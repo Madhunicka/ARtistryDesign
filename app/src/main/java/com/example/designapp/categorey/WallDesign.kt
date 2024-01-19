@@ -262,13 +262,13 @@ fun FrameScreen(navController: NavHostController) {
         modifier = Modifier
 
 
-            .size(600.dp)
+            .size(1600.dp)
             .verticalScroll(rememberScrollState())
 
     )
     {
 
-        Text("Frame Screen Content")
+//        Text("Frame Screen Content")
 
 
         Column(
@@ -480,13 +480,13 @@ fun WallArtScreen(navController: NavHostController) {
         modifier = Modifier
 
 
-            .size(600.dp)
+            .size(1600.dp)
             .verticalScroll(rememberScrollState())
 
     )
     {
 
-        Text("WallArt Screen Content")
+//        Text("WallArt Screen Content")
 
 
         Column(

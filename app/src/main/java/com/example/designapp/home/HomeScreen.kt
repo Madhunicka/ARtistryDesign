@@ -110,15 +110,7 @@ fun HomeScreen(navController: NavHostController) {
 
 
         ) {
-//            Image(
-//                painter = painterResource(id = R.drawable.nobg),
-//                contentDescription = null,
-//                modifier = Modifier
-//                    .fillMaxSize()
-//                    .offset (y =30.dp)
-//                    .alpha(0.5f) // Adjust the alpha to control the transparency of the background image
-//            )
-//            Spacer(modifier = Modifier.height(32.dp))
+
 
 
             Icon(
@@ -126,7 +118,7 @@ fun HomeScreen(navController: NavHostController) {
                 contentDescription = "info",
                 modifier = Modifier
                     .size(30.dp, 30.dp)
-                    .offset(290.dp)
+                    .align(Alignment.TopEnd)
                     .clickable(onClick = {navController.navigate("helpScreen")})
             )
             Spacer(modifier = Modifier.height(16.dp)
